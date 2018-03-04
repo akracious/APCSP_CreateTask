@@ -2,7 +2,12 @@ import os
 import re
 
 
-os.chdir('/nfs/2017/a/adeokule/Desktop/')
+#os.chdir('/nfs/2017/a/adeokule/Desktop/')
+os.chdir(r'C:\Users\Akshey.Deokule21\APCSP_CreateTask')
+
+myfile = open("words.txt", encoding = "utf8")
+for mystuff in myfile:
+    print(mystuff)
 
 def syllables(word):
     wordSyl = word.lower().strip(".:;?!")
@@ -25,23 +30,32 @@ def syllables(word):
     	countSyl += 1
     return countSyl
 
-myfile = open("words.txt")
-for mystuff in myfile:
-    print(mystuff)
-myfile.close()
-
 count = len(re.findall(r'\w+', mystuff))
-sentences = len(re.findall(r'\.', mystuff))
-syllablecounte = syllables(mystuff)
-print syllablecounte
-print count
-print sentences
-  
-ReadingEase = 206.835 - (1.015 * (count/sentences)) - (84.6 * (syllablecounte/count))
-ReadingLevel = (0.39*(count/sentences)) + (11.8*(syllablecounte/count)) - 15.59
 
-print ReadingLevel
-myfile.close() 
+def sentences(paragraph):
+    sentencecounte = 0
+    sentencecounte += paragraph.count('. ')
+    sentencecounte -= paragraph.count('...')
+    sentencecounte -= paragraph.count('. . .')
+    sentencecounte += paragraph.count('."')
+    quote_start = paragraph.find('"')
+    if paragraph.find('.') > quote_start:
+        sentencecounte -= 1
+    return sentencecounte
+
+
+#sentences = len(re.findall(r'\.', mystuff))
+syllablecounte = syllables(mystuff)
+sentencecount = sentences(mystuff)
+print (syllablecounte)
+print (count)
+print (sentencecount)
+print (mystuff.find('"'))
+  
+ReadingEase = 206.835-(1.015*(count/sentencecount))-(84.6*(syllablecounte/count))
+ReadingLevel = (0.39*(count/sentencecount)) + (11.8*(syllablecounte/count)) - 15.59
+
+print (ReadingLevel)
 
 if ReadingLevel > 100.00:
 	print ('4th grade and lower reading level.')
@@ -75,4 +89,7 @@ if ReadingLevel >= 0.00 and ReadingLevel < 30.00:
 	print ('College Grad reading level.')
 	print('Very difficult to read. Best understood by university graduates.')
 
+matches = re.findall(r'\"(.+)\"', mystuff)
+print (matches)
 
+myfile.close() 
