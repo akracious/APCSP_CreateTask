@@ -1,13 +1,12 @@
 import os
 import re
 
-
 #os.chdir('/nfs/2017/a/adeokule/Desktop/')
 os.chdir(r'C:\Users\Akshey.Deokule21\APCSP_CreateTask')
 
-myfile = open("words.txt", encoding = "utf8")
-for mystuff in myfile:
-    print(mystuff)
+myfile = open("words.txt", 'r', encoding = "utf8")
+mystuff = myfile.read()
+
 
 def syllables(word):
     wordSyl = word.lower().strip(".:;?!")
@@ -38,9 +37,9 @@ def sentences(paragraph):
     sentencecounte -= paragraph.count('...')
     sentencecounte -= paragraph.count('. . .')
     sentencecounte += paragraph.count('."')
-    quote_start = paragraph.find('"')
-    if paragraph.find('.') > quote_start:
-        sentencecounte -= 1
+    openq = '“'
+    closeq = '”'
+    print ([pos for pos, char in enumerate(mystuff) if char == c])
     return sentencecounte
 
 
@@ -88,8 +87,5 @@ if ReadingLevel >= 30.00 and ReadingLevel < 50.00:
 if ReadingLevel >= 0.00 and ReadingLevel < 30.00:
 	print ('College Grad reading level.')
 	print('Very difficult to read. Best understood by university graduates.')
-
-matches = re.findall(r'\"(.+)\"', mystuff)
-print (matches)
 
 myfile.close() 
