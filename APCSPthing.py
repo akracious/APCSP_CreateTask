@@ -33,28 +33,44 @@ count = len(re.findall(r'\w+', mystuff))
 
 def sentences(paragraph):
     sentencecounte = 0
-    sentencecounte += paragraph.count('. ')
-    sentencecounte -= paragraph.count('...')
-    sentencecounte -= paragraph.count('. . .')
-    sentencecounte += paragraph.count('."')
+    #sentencecounte += paragraph.count('. ')
+    #sentencecounte += paragraph.count('... ')
+    #sentencecounte += paragraph.count('. . . ')
+    #sentencecounte += paragraph.count('.” ')
     openq = '“'
     closeq = '”'
-    print ([pos for pos, char in enumerate(mystuff) if char == c])
+    period = '.'
+    opqstart = ([pos for pos, char in enumerate(mystuff) if char == openq])
+    print (opqstart)
+    closeqsend = ([pos for pos, char in enumerate(mystuff) if char == closeq])
+    print (closeqsend)
+    periodend = ([pos for pos, char in enumerate(mystuff) if char == period])
+    print (periodend)
+#    y = 0
+#    for y in range(len(periodend)):
+#        if (mystuff[periodend.index(periodend[y])+2]).isalpha() == True and (mystuff[periodend.index(periodend[y])+2]).isupper() == True:
+#            sentencecounte += 1
+#        y += 1
+    count = 0
+    countlist = 0
+    for count in range(len(periodend)):
+        if periodend[count] > opqstart[countlist] and periodend[count] < ((closeqsend[countlist])-1):
+            if periodend[count+1] > closeqsend[countlist]:
+                countlist += 1
+            sentencecounte -= 1
+        count +=1
     return sentencecounte
 
-
-#sentences = len(re.findall(r'\.', mystuff))
 syllablecounte = syllables(mystuff)
 sentencecount = sentences(mystuff)
-print (syllablecounte)
-print (count)
-print (sentencecount)
-print (mystuff.find('"'))
+print (('Syllable Count = %s') %syllablecounte)
+print (('Word Count = %s') %count)
+print (('Sentence Count = %s') %sentencecount)
   
 ReadingEase = 206.835-(1.015*(count/sentencecount))-(84.6*(syllablecounte/count))
 ReadingLevel = (0.39*(count/sentencecount)) + (11.8*(syllablecounte/count)) - 15.59
 
-print (ReadingLevel)
+print (('Reading Level = %s') %(ReadingLevel))
 
 if ReadingLevel > 100.00:
 	print ('4th grade and lower reading level.')
