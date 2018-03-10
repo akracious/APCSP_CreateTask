@@ -6,7 +6,7 @@ os.chdir(r'C:\Users\Akshey.Deokule21\APCSP_CreateTask')
 
 myfile = open("words.txt", 'r', encoding = "utf8")
 mystuff = myfile.read()
-
+mystuff += ' ' * 2
 
 def syllables(word):
     wordSyl = word.lower().strip(".:;?!")
@@ -33,32 +33,35 @@ count = len(re.findall(r'\w+', mystuff))
 
 def sentences(paragraph):
     sentencecounte = 0
-    #sentencecounte += paragraph.count('. ')
-    #sentencecounte += paragraph.count('... ')
-    #sentencecounte += paragraph.count('. . . ')
-    #sentencecounte += paragraph.count('.” ')
     openq = '“'
     closeq = '”'
     period = '.'
-    opqstart = ([pos for pos, char in enumerate(mystuff) if char == openq])
+    opqstart = ([pos for pos, char in enumerate(paragraph) if char == openq])
     print (opqstart)
-    closeqsend = ([pos for pos, char in enumerate(mystuff) if char == closeq])
+    closeqsend = ([pos for pos, char in enumerate(paragraph) if char == closeq])
     print (closeqsend)
-    periodend = ([pos for pos, char in enumerate(mystuff) if char == period])
+    periodend = ([pos for pos, char in enumerate(paragraph) if char == period])
     print (periodend)
-#    y = 0
-#    for y in range(len(periodend)):
-#        if (mystuff[periodend.index(periodend[y])+2]).isalpha() == True and (mystuff[periodend.index(periodend[y])+2]).isupper() == True:
-#            sentencecounte += 1
-#        y += 1
-    count = 0
-    countlist = 0
-    for count in range(len(periodend)):
-        if periodend[count] > opqstart[countlist] and periodend[count] < ((closeqsend[countlist])-1):
-            if periodend[count+1] > closeqsend[countlist]:
-                countlist += 1
-            sentencecounte -= 1
-        count +=1
+    y = 0
+    #print (paragraph[periodend[y]+2])
+    #print ((paragraph[periodend[y]+2]).isalpha())
+    for y in range(len(periodend)):
+        if (paragraph[periodend[y]+2]).isalpha() == True and (paragraph[periodend[y]+2]).isupper() == True:
+            sentencecounte += 1
+        if (paragraph[periodend[y]+2]) == "“":
+            sentencecounte += 1
+        y += 1
+    try:
+        count = 0
+        countlist = 0
+        for count in range(len(periodend)):
+            if periodend[count] > opqstart[countlist] and periodend[count] < ((closeqsend[countlist])-1):
+                if periodend[count+1] > closeqsend[countlist]:
+                    countlist -= 1
+                sentencecounte -= 1
+            count +=1
+    except IndexError:
+        print ("No quotes")
     return sentencecounte
 
 syllablecounte = syllables(mystuff)
